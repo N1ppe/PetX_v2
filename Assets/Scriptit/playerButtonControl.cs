@@ -209,6 +209,7 @@ public class playerButtonControl : MonoBehaviour {
         animator.SetFloat("LastMoveY", -1f);
         sleep.gameObject.SetActive(false);
         gm.GetComponent<gamemanagement>().day++;
+        gm.GetComponent<gamemanagement>().timeOfDay = 10;
         Cursor.visible = false; Time.timeScale = 1;
     }
     public void exitSleepWindow() { sleep.gameObject.SetActive(false); Cursor.visible = false; Time.timeScale = 1; }

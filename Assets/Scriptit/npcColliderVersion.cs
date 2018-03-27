@@ -18,6 +18,14 @@ public class npcColliderVersion : MonoBehaviour {
     }
 	void Update ()
     {
+        if(seenThisNpc == true)
+        {
+            huutomerkkiCanvas.SetActive(false);
+        }
+        else
+        {
+            huutomerkkiCanvas.SetActive(true);
+        }
         nextTextButton();
 	}
     public void nextTextButton()

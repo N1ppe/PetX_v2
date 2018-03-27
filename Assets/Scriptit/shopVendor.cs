@@ -47,7 +47,7 @@ public class shopVendor : MonoBehaviour
         Time.timeScale = 1;
     }
     //sell screen
-    public void sell()
+    public void sell()//    THIS THING HERE IS SO FUCKED UP, GOD DAIAMN , DELETES ALL IF MANY SAME ITEMS
     {
         sellSCreenImages();
 
@@ -60,16 +60,24 @@ public class shopVendor : MonoBehaviour
                     //saman niminen item allitems listalta
                     if (gm.GetComponent<gamemanagement>().AllItems[y].name == sellButtons[p].itemNameHolder.text)
                     {
-                        gm.GetComponent<gamemanagement>().money = gm.GetComponent<gamemanagement>().money + sellButtons[p].cost;
+                        gm.GetComponent<gamemanagement>().money =+ sellButtons[p].cost;
                         sellButtons[p].itemNameHolder.text = "";
                         gm.GetComponent<gamemanagement>().playersBackpack[p].name = "";
                         gm.GetComponent<gamemanagement>().playersBackpack[p].description = "";
                         gm.GetComponent<gamemanagement>().playersBackpack[p].itemPropertyInt = 0;
                         gm.GetComponent<gamemanagement>().playersBackpack[p].sellCost = 0;
                         gm.GetComponent<gamemanagement>().playersBackpack[p].itemImage = null;
-                        return;
+                        sellSCreenImages();
+
+                        for (int intti = 0; intti < 10; intti++)
+                        {
+                            sellButtons[intti].itemNameHolder.text = gm.GetComponent<gamemanagement>().playersBackpack[intti].name;
+                            if (gm.GetComponent<gamemanagement>().playersBackpack[intti].name == sellButtons[intti].itemNameHolder.text)
+                            { sellButtons[intti].cost = gm.GetComponent<gamemanagement>().playersBackpack[intti].sellCost; }
+                        }
                     }
                 }
+                return;
             }
         }
         sellSCreenImages();
@@ -84,6 +92,7 @@ public class shopVendor : MonoBehaviour
             if(gm.GetComponent<gamemanagement>().playersBackpack[intti].name == sellButtons[intti].itemNameHolder.text)
             { sellButtons[intti].cost = gm.GetComponent<gamemanagement>().playersBackpack[intti].sellCost; }
         }
+        sellSCreenImages();
     }
     public void backToBuyScreen()
     {
@@ -106,9 +115,10 @@ public class shopVendor : MonoBehaviour
                         {//space in backpack
                             if(gm.GetComponent<gamemanagement>().playersBackpack[u] != null)
                             {
-                                if (gm.GetComponent<gamemanagement>().playersBackpack[u].name == "" && gm.GetComponent<gamemanagement>().money > buyButtons[p].cost && allowBuy == true)
+                                if (gm.GetComponent<gamemanagement>().playersBackpack[u].name == "" && gm.GetComponent<gamemanagement>().money >= buyButtons[p].cost && allowBuy == true)
                                 {
                                     Debug.Log("BOUGHT A THING");
+                                    gm.GetComponent<gamemanagement>().reppuVisuals();
                                     gm.GetComponent<gamemanagement>().playersBackpack[u] = gm.GetComponent<gamemanagement>().AllItems[y];
                                     gm.GetComponent<gamemanagement>().money = gm.GetComponent<gamemanagement>().money - buyButtons[p].cost;
                                     allowBuy = false;
@@ -120,6 +130,7 @@ public class shopVendor : MonoBehaviour
                                     shopCanvas.SetActive(false);
                                     Cursor.visible = false;
                                     Time.timeScale = 1;
+                                    return;
                                 }
                             }
                         }
@@ -187,11 +198,17 @@ public class shopVendor : MonoBehaviour
             }
         }
     }
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
-        shopCanvas.SetActive(true);
-        Cursor.visible=true;
-        Time.timeScale = 0;
+        if (other.tag == "Player")
+        {
+            if (Input.GetButtonDown("interract"))
+            {
+                shopCanvas.SetActive(true);
+                Cursor.visible = true;
+                Time.timeScale = 0;
+            }
+        }
     }
     void OnTriggerExit2D(Collider2D other)
     {

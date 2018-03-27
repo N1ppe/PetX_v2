@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GymMinigameAndDispencer : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GymMinigameAndDispencer : MonoBehaviour
     public statGained StatGained;
     GameObject gm;
     public bool inRange=false;
+    public Text npcText;
 
 	void Start ()
     {
@@ -17,6 +19,28 @@ public class GymMinigameAndDispencer : MonoBehaviour
     {
         if(inRange == true)
         {
+            if (codeType == type.TALKtOnPC)
+            {
+                if (gm.GetComponent<gamemanagement>().timeOfDay < 22)
+                {
+                    npcText.text = "Train a little !";
+
+                    if (StatGained == statGained.strength) { gm.GetComponent<gamemanagement>().Pet.strength =+ 20; }
+                    else if (StatGained == statGained.agility) { gm.GetComponent<gamemanagement>().Pet.agility = +20; }
+                    else if (StatGained == statGained.wisdom) { gm.GetComponent<gamemanagement>().Pet.wisdom = +20; }
+                    else if (StatGained == statGained.luck) { gm.GetComponent<gamemanagement>().Pet.luck = +20; }
+
+                    gm.GetComponent<gamemanagement>().timeOfDay = +1;
+                    return;
+                }
+                else
+                {
+                    npcText.text = "Can't train at this hour!, come back tomorrow !";//cant train anymore
+                    return;
+                }
+
+
+            }
             if (codeType == type.minigame)
             {
 
@@ -62,7 +86,7 @@ public class GymMinigameAndDispencer : MonoBehaviour
 }
 public enum type
 {
-minigame,dispencer
+TALKtOnPC,minigame,dispencer
 }
 public enum statGained
 {

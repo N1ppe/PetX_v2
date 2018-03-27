@@ -140,7 +140,7 @@ public class playerMovement : MonoBehaviour {
     {
         if (other.gameObject.name == "wall")
         {
-            Debug.Log("dfghjkl");
+            Debug.Log("hit a wall");
         }
         if (other.gameObject.tag == "Enemy")
         {
