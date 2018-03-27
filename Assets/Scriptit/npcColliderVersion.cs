@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class npcColliderVersion : MonoBehaviour {
 
-    public GameObject screenCanvas;
+    public GameObject screenCanvas,player;
     public bool seenThisNpc = false;
 
     public string NPC_name;
@@ -14,16 +14,17 @@ public class npcColliderVersion : MonoBehaviour {
 
     void Start ()
     {
-		
-	}
+        player = GameObject.FindWithTag("Player");
+    }
 	void Update ()
     {
         nextTextButton();
 	}
     public void nextTextButton()
     {
-        if (seenThisNpc == true && Input.GetKeyDown(KeyCode.Space))
+        if (seenThisNpc == true && Input.GetButtonDown("interract"))
         {
+            Debug.Log("wertyui");
             nextText();
         }
     }
@@ -49,11 +50,25 @@ public class npcColliderVersion : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        seenThisNpc = true;
+        /*
+        if(other.tag == "Player" && player.GetComponent<playerAttacking>().atkAllow == true && Input.GetButtonDown("interract"))
+        {
+            seenThisNpc = true;
 
-        screenCanvas.SetActive(true);
-        //screenCanvas.GetComponentInChildren<Text>().text = "Sanon jotain, kun tulet lähelleni.";
-        screenCanvas.GetComponentInChildren<Text>().text = texts[0];
+            screenCanvas.SetActive(true);
+            screenCanvas.GetComponentInChildren<Text>().text = texts[0];
+        }
+        */
+    }
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "Player" && player.GetComponent<playerAttacking>().atkAllow == true && Input.GetButtonDown("interract"))
+        {
+            seenThisNpc = true;
+
+            screenCanvas.SetActive(true);
+            screenCanvas.GetComponentInChildren<Text>().text = texts[0];
+        }
     }
     void OnTriggerExit2D(Collider2D other)
     {

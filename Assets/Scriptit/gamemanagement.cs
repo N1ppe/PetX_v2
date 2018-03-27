@@ -40,7 +40,7 @@ public class gamemanagement : MonoBehaviour {
 	void Start () {
         player = GameObject.FindWithTag("Player");
         Pet = AllMonsters[0];
-        Cursor.visible = false;
+        //Cursor.visible = false;
         //StartCoroutine(evolutionUI());
         reppuVisuals();
 	}

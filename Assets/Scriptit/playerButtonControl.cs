@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class playerButtonControl : MonoBehaviour {
 
     public gamemanagement gm;
+    [Range(0,3)]
+    public int buttonInt=0;
     public GameObject evolves,reppu,map,sleep;
     public Vector3 bedPosition;
     public openCanvas openWindow;
@@ -14,67 +16,124 @@ public class playerButtonControl : MonoBehaviour {
     [Range(0,11)]
     public int waypointIntToMoveTo;
     public mapWaypoints[] waypoints;
+    Animator animator;
 
 	void Start ()
     {
         pet = GameObject.FindWithTag("Pet");
+        animator = this.GetComponent<Animator>();
     }
 	void Update ()
     {
         playerOtherButtons();
+        escaping();
         bb();
+    }
+    public void pb()
+    {
+        buttonInt = 1;
+    }
+    public void rb()
+    {
+        buttonInt = 2;
+    }
+    public void mb()
+    {
+        buttonInt = 3;
+    }
+    public void escaping()
+    {
+        if (Input.GetButtonDown("esc"))
+        {
+            evolves.SetActive(false);
+            reppu.SetActive(false);
+            map.SetActive(false);
+            Time.timeScale = 1;
+            openWindow = openCanvas.NONE;
+            buttonInt = 0;
+        }
     }
     public void playerOtherButtons()
     {
-        if(Input.GetButtonDown("evolutions"))
+        //---------------------------------------------------------------------------------
+        if (buttonInt == 1)
         {
-            if (openWindow==openCanvas.evolutions)//is activated
+                evolves.SetActive(true);
+                reppu.SetActive(false);
+                map.SetActive(false);
+                Time.timeScale = 0;
+                //Cursor.visible = true;
+                openWindow = openCanvas.evolutions;
+        }
+        else if (buttonInt == 2)
+        {
+                gm.GetComponent<gamemanagement>().reppuVisuals();
+                evolves.SetActive(false);
+                reppu.SetActive(true);
+                map.SetActive(false);
+                Time.timeScale = 0;
+                //Cursor.visible = true;
+                openWindow = openCanvas.reppu;
+        }
+        else if (buttonInt == 3)
+        {
+                evolves.SetActive(false);
+                reppu.SetActive(false);
+                map.SetActive(true);
+                Time.timeScale = 0;
+                //Cursor.visible = true;
+                openWindow = openCanvas.map;
+        }
+        buttonInt = 0;
+        //---------------------------------------------------------------------------------
+        if (Input.GetButtonDown("evolutions"))
+        {
+            if (openWindow == openCanvas.evolutions)
             {
                 evolves.SetActive(false);
                 Time.timeScale = 1;
-                Cursor.visible = false;
                 openWindow = openCanvas.NONE;
             }
-            else if(openWindow == openCanvas.NONE)
+            else
             {
                 evolves.SetActive(true);
+                reppu.SetActive(false);
+                map.SetActive(false);
                 Time.timeScale = 0;
-                Cursor.visible = true;
                 openWindow = openCanvas.evolutions;
             }
         }
-        if (Input.GetButtonDown("reppu"))
+        else if (Input.GetButtonDown("reppu"))
         {
-            if (openWindow == openCanvas.reppu)//is activated
+            if (openWindow == openCanvas.reppu)
             {
                 reppu.SetActive(false);
                 Time.timeScale = 1;
-                Cursor.visible = false;
                 openWindow = openCanvas.NONE;
             }
-            else if (openWindow == openCanvas.NONE)
+            else
             {
-                gm.GetComponent<gamemanagement>().reppuVisuals();
+                evolves.SetActive(false);
                 reppu.SetActive(true);
+                map.SetActive(false);
                 Time.timeScale = 0;
-                Cursor.visible = true;
                 openWindow = openCanvas.reppu;
             }
         }
-        if (Input.GetButtonDown("map"))
+        else if (Input.GetButtonDown("map"))
         {
-            if (openWindow == openCanvas.map)//is activated
+            if (openWindow == openCanvas.map)
             {
                 map.SetActive(false);
                 Time.timeScale = 1;
-                Cursor.visible = false;
                 openWindow = openCanvas.NONE;
             }
-            else if (openWindow == openCanvas.NONE)
+            else
             {
+                evolves.SetActive(false);
+                reppu.SetActive(false);
                 map.SetActive(true);
                 Time.timeScale = 0;
-                Cursor.visible = true;
                 openWindow = openCanvas.map;
             }
         }
@@ -147,6 +206,7 @@ public class playerButtonControl : MonoBehaviour {
     {
         this.gameObject.transform.position = bedPosition;
         pet.gameObject.transform.position = bedPosition;
+        animator.SetFloat("LastMoveY", -1f);
         sleep.gameObject.SetActive(false);
         gm.GetComponent<gamemanagement>().day++;
         Cursor.visible = false; Time.timeScale = 1;
