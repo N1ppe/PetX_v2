@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class npcColliderVersion : MonoBehaviour {
 
-    public GameObject screenCanvas,player;
+    public GameObject screenCanvas,player,huutomerkkiCanvas;
     public bool seenThisNpc = false;
 
     public string NPC_name;
@@ -24,7 +24,6 @@ public class npcColliderVersion : MonoBehaviour {
     {
         if (seenThisNpc == true && Input.GetButtonDown("interract"))
         {
-            Debug.Log("wertyui");
             nextText();
         }
     }
@@ -64,7 +63,7 @@ public class npcColliderVersion : MonoBehaviour {
     {
         if (other.tag == "Player" && player.GetComponent<playerAttacking>().atkAllow == true && Input.GetButtonDown("interract"))
         {
-            seenThisNpc = true;
+            StartCoroutine(delay()); //seenThisNpc = true;
 
             screenCanvas.SetActive(true);
             screenCanvas.GetComponentInChildren<Text>().text = texts[0];
@@ -75,5 +74,10 @@ public class npcColliderVersion : MonoBehaviour {
         seenThisNpc = false;
         screenCanvas.SetActive(false);
         screenCanvas.GetComponentInChildren<Text>().text = "";
+    }
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(.1f);
+        seenThisNpc = true;
     }
 }
