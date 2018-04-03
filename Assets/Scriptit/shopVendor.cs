@@ -20,8 +20,20 @@ public class shopVendor : MonoBehaviour
     }
 	void Update ()
     {
-
-	}
+        if (EventSystem.current.currentSelectedGameObject != null)
+        {
+            if (EventSystem.current.currentSelectedGameObject.name == "sell1") { itemToSellINT = 0; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell2") { itemToSellINT = 1; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell3") { itemToSellINT = 2; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell4") { itemToSellINT = 3; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell5") { itemToSellINT = 4; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell6") { itemToSellINT = 5; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell7") { itemToSellINT = 6; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell8") { itemToSellINT = 7; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell9") { itemToSellINT = 8; }
+            if (EventSystem.current.currentSelectedGameObject.name == "sell10") { itemToSellINT = 9; }
+        }
+    }
     #region vendorButtons
     public void v1() { itemToBuyINT = 0; itemPictures(); }
     public void v2() { itemToBuyINT = 1; itemPictures(); }
@@ -33,7 +45,6 @@ public class shopVendor : MonoBehaviour
     public void v8() { itemToBuyINT = 7; itemPictures(); }
     public void v9() { itemToBuyINT = 8; itemPictures(); }
     public void v10() { itemToBuyINT = 9; itemPictures(); }
-
     public void Buy()
     {
         allowBuy = true;
@@ -47,39 +58,92 @@ public class shopVendor : MonoBehaviour
         Time.timeScale = 1;
     }
     //sell screen
-    public void sell()//    THIS THING HERE IS SO FUCKED UP, GOD DAIAMN , DELETES ALL IF MANY SAME ITEMS
+    public void sell()//    THIS THING HERE IS SO FUCKED UP, GOD DAIAMN , DELETES ALL IF MANY SAME ITEMS , update: if you remove 1 item all duplicated are deleted too
     {
         sellSCreenImages();
 
-        for (int p = 0; p < 10; p++)
-        {//valittu tuote listalta
-            if (p == itemToSellINT)
+        /*
+        for (int y = 0; y < gm.GetComponent<gamemanagement>().AllItems.Length; y++)
+        {
+            //saman niminen item allitems listalta
+            if (gm.GetComponent<gamemanagement>().AllItems[y].name == sellButtons[itemToSellINT].itemNameHolder.text)
             {
-                for (int y = 0; y < gm.GetComponent<gamemanagement>().AllItems.Length; y++)
-                {
-                    //saman niminen item allitems listalta
-                    if (gm.GetComponent<gamemanagement>().AllItems[y].name == sellButtons[p].itemNameHolder.text)
-                    {
-                        gm.GetComponent<gamemanagement>().money =+ sellButtons[p].cost;
-                        sellButtons[p].itemNameHolder.text = "";
-                        gm.GetComponent<gamemanagement>().playersBackpack[p].name = "";
-                        gm.GetComponent<gamemanagement>().playersBackpack[p].description = "";
-                        gm.GetComponent<gamemanagement>().playersBackpack[p].itemPropertyInt = 0;
-                        gm.GetComponent<gamemanagement>().playersBackpack[p].sellCost = 0;
-                        gm.GetComponent<gamemanagement>().playersBackpack[p].itemImage = null;
-                        sellSCreenImages();
+                string tempSellingItem = gm.GetComponent<gamemanagement>().AllItems[y].name;
 
-                        for (int intti = 0; intti < 10; intti++)
-                        {
-                            sellButtons[intti].itemNameHolder.text = gm.GetComponent<gamemanagement>().playersBackpack[intti].name;
-                            if (gm.GetComponent<gamemanagement>().playersBackpack[intti].name == sellButtons[intti].itemNameHolder.text)
-                            { sellButtons[intti].cost = gm.GetComponent<gamemanagement>().playersBackpack[intti].sellCost; }
-                        }
-                    }
-                }
-                return;
             }
         }
+        */
+        if (itemToSellINT == 0)
+        {
+            gm.GetComponent<gamemanagement>().money = +sellButtons[0].cost;
+            sellButtons[0].itemNameHolder.text = "";
+
+            if(sellButtons[0].itemNameHolder.text == "")
+            {
+                gm.GetComponent<gamemanagement>().playersBackpack[0].name = "";
+                gm.GetComponent<gamemanagement>().playersBackpack[0].description = "";
+                gm.GetComponent<gamemanagement>().playersBackpack[0].itemPropertyInt = 0;
+                gm.GetComponent<gamemanagement>().playersBackpack[0].sellCost = 0;
+                gm.GetComponent<gamemanagement>().playersBackpack[0].itemImage = null;
+            }
+            sellSCreenImages();
+        }
+
+            /*
+            for (int intti = 0; intti < 10; intti++)
+            {
+                sellButtons[intti].itemNameHolder.text = gm.GetComponent<gamemanagement>().playersBackpack[intti].name;
+                if (gm.GetComponent<gamemanagement>().playersBackpack[intti].name == sellButtons[intti].itemNameHolder.text)
+                { sellButtons[intti].cost = gm.GetComponent<gamemanagement>().playersBackpack[intti].sellCost; }
+            }
+            */
+            //itemToSellINT = 10;
+            Debug.Log("SOLD A THING");
+
+
+
+
+
+
+        /*
+
+        for (int y = 0; y < gm.GetComponent<gamemanagement>().AllItems.Length; y++)
+        {
+            //saman niminen item allitems listalta
+            if (gm.GetComponent<gamemanagement>().AllItems[y].name == sellButtons[itemToSellINT].itemNameHolder.text)
+            {
+                gm.GetComponent<gamemanagement>().money = +sellButtons[itemToSellINT].cost;
+                sellButtons[itemToSellINT].itemNameHolder.text = "";
+                gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].name = "";
+                gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].description = "";
+                gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].itemPropertyInt = 0;
+                gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].sellCost = 0;
+                gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].itemImage = null;
+                sellSCreenImages();
+                
+                for (int intti = 0; intti < 10; intti++)
+                {
+                    sellButtons[intti].itemNameHolder.text = gm.GetComponent<gamemanagement>().playersBackpack[intti].name;
+                    if (gm.GetComponent<gamemanagement>().playersBackpack[intti].name == sellButtons[intti].itemNameHolder.text)
+                    { sellButtons[intti].cost = gm.GetComponent<gamemanagement>().playersBackpack[intti].sellCost; }
+                }
+                
+                y = gm.GetComponent<gamemanagement>().AllItems.Length;
+                itemToSellINT = 10;
+                Debug.Log("SOLD A THING");
+            }
+            //Debug.Log("loop times "+y);
+        }
+        
+        */
+
+
+
+
+
+
+
+
         sellSCreenImages();
     }
     public void toSellScreen()

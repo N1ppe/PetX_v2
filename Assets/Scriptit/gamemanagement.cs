@@ -12,7 +12,8 @@ public class gamemanagement : MonoBehaviour {
     public int money;
     [Range(0, 100)]
     public float mana;
-    public Image uIStamina, uIMana;
+    public Image uIStamina, uIMana,petUIimage;
+    public Sprite lukkoImg;
     float manaCalculated,staminaCalculated;
     public Text cashText;
     [Range(0,24)]
@@ -46,6 +47,9 @@ public class gamemanagement : MonoBehaviour {
 	}
 	void Update ()
     {
+        petChangingInRuntime();
+        statPetEvolutions();//----------------------------------hard code pakko---------------------------------
+
         clockChanger();
         moneyCounter();
         staminaBar();
@@ -124,9 +128,36 @@ public class gamemanagement : MonoBehaviour {
             reppuItemImg.sprite = playersBackpack[0].itemImage;
         }
     }
-    public void statPetEvolutions()
+    public void petChangingInRuntime()
+    {
+        for (int r = 0; r < AllMonsters.Length; r++)
+        {
+            if (r == CurrentPetInt-1)
+            {
+                Pet = AllMonsters[r];
+            }
+        }
+    }
+    public void statPetEvolutions()//----------------------------------hard code what pet stat allows what next evolution----------------------------------
     {
 
+        for (int r = 0; r < AllMonsters.Length; r++)
+        {
+            if (AllMonsters[r].allowEvolution == true)
+            {
+                AllMonsters[r].inMonsterCatalog.sprite = AllMonsters[r].petVisual;
+            }
+            else if (AllMonsters[r].allowEvolution == false) { AllMonsters[r].inMonsterCatalog.sprite = lukkoImg; }
+        }
+
+
+        if (CurrentPetInt == 1)
+        {
+            if (Pet.strength == 100) { AllMonsters[2].allowEvolution = true; }
+            if (Pet.agility == 100) { }
+            if (Pet.wisdom == 100) { }
+            if (Pet.luck == 1000) { }
+        }
     }
     IEnumerator evolutionUI()
     {
@@ -151,7 +182,9 @@ public class Monsters
     public string name, description;
     public int strength, agility, wisdom , luck;    //upgradable stats
     public int health, hunger, happyness, cleaniness;    //beauty
+    public bool allowEvolution = false;
     public Sprite petVisual;
+    public Image inMonsterCatalog;
     public GameObject petInWorldPrefab;
 }
 [System.Serializable]
@@ -165,7 +198,7 @@ public class Buffs
 public class Items
 {
     public string name, description;
-    public int itemPropertyInt,sellCost;
+    public int amount,itemPropertyInt,sellCost;
     public Sprite itemImage;
 }
 [System.Serializable]

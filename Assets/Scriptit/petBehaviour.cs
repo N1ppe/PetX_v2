@@ -13,7 +13,7 @@ public class petBehaviour : MonoBehaviour {
     {
         distToPlayer = Vector3.Distance(this.transform.position, player.transform.position);
         moveToPlayer();
-        hideWhenInAttack();
+        //hideWhenInAttack();
     }
     void moveToPlayer()
     {
@@ -24,7 +24,7 @@ public class petBehaviour : MonoBehaviour {
     }
     void hideWhenInAttack()
     {
-        if (player.GetComponent<playerAttacking>().atkAllow == true) { this.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true; }
-        else { this.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false; }
+        //if (player.GetComponent<playerAttacking>().atkAllow == true) { this.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true; }
+        //else { this.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false; }
     }
 }

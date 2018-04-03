@@ -10,6 +10,8 @@ public class GymMinigameAndDispencer : MonoBehaviour
     GameObject gm;
     public bool inRange=false;
     public Text npcText;
+    [Range(5,50)]
+    public int TrainingCost;
 
 	void Start ()
     {
@@ -25,13 +27,17 @@ public class GymMinigameAndDispencer : MonoBehaviour
                 {
                     npcText.text = "Train a little !";
 
-                    if (StatGained == statGained.strength) { gm.GetComponent<gamemanagement>().Pet.strength =+ 20; }
-                    else if (StatGained == statGained.agility) { gm.GetComponent<gamemanagement>().Pet.agility = +20; }
-                    else if (StatGained == statGained.wisdom) { gm.GetComponent<gamemanagement>().Pet.wisdom = +20; }
-                    else if (StatGained == statGained.luck) { gm.GetComponent<gamemanagement>().Pet.luck = +20; }
+                    if(Input.GetButtonDown("interract") && gm.GetComponent<gamemanagement>().money>=5)
+                    {
+                        if (StatGained == statGained.strength) { gm.GetComponent<gamemanagement>().Pet.strength = gm.GetComponent<gamemanagement>().Pet.strength + 20; }
+                        else if (StatGained == statGained.agility) { gm.GetComponent<gamemanagement>().Pet.agility = gm.GetComponent<gamemanagement>().Pet.agility + 20; }
+                        else if (StatGained == statGained.wisdom) { gm.GetComponent<gamemanagement>().Pet.wisdom = gm.GetComponent<gamemanagement>().Pet.wisdom + 20; }
+                        else if (StatGained == statGained.luck) { gm.GetComponent<gamemanagement>().Pet.luck = gm.GetComponent<gamemanagement>().Pet.luck + 20; }
 
-                    gm.GetComponent<gamemanagement>().timeOfDay = +1;
-                    return;
+                        gm.GetComponent<gamemanagement>().timeOfDay = gm.GetComponent<gamemanagement>().timeOfDay + 1;
+                        gm.GetComponent<gamemanagement>().money = gm.GetComponent<gamemanagement>().money - TrainingCost;
+                        return;
+                    }
                 }
                 else
                 {

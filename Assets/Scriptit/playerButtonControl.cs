@@ -160,16 +160,18 @@ public class playerButtonControl : MonoBehaviour {
             {
                 if(gm.GetComponent<gamemanagement>().AllMonsters[u].petInWorldPrefab != null)
                 {
-                    gm.GetComponent<gamemanagement>().AllMonsters[u].petInWorldPrefab.SetActive(false);
+                    gm.GetComponent<gamemanagement>().AllMonsters[u].petInWorldPrefab.SetActive(false);//disables all
                 }
-            }
+            }         
             for (int g = 0; g < gm.GetComponent<gamemanagement>().AllMonsters.Length; g++)
             {
-                if (EventSystem.current.currentSelectedGameObject.name == gm.GetComponent<gamemanagement>().AllMonsters[g].name)
+                if (EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text == gm.GetComponent<gamemanagement>().AllMonsters[g].name && gm.GetComponent<gamemanagement>().AllMonsters[g].allowEvolution==true)
                 {
                     Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-                    gm.GetComponent<gamemanagement>().Pet = gm.GetComponent<gamemanagement>().AllMonsters[g];
-                    gm.GetComponent<gamemanagement>().AllMonsters[g].petInWorldPrefab.SetActive(true);
+                    //gm.GetComponent<gamemanagement>().Pet = gm.GetComponent<gamemanagement>().AllMonsters[g]; //this should work, but it doesnt workaround under
+                    gm.GetComponent<gamemanagement>().CurrentPetInt = g+1;
+                    //gm.GetComponent<gamemanagement>().petUIimage.sprite = gm.GetComponent<gamemanagement>().AllMonsters[g].petVisual;
+                    //gm.GetComponent<gamemanagement>().AllMonsters[g].petInWorldPrefab.SetActive(true);
                 }
             }
         }
