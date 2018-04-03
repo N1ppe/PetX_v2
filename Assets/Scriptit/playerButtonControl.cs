@@ -146,7 +146,14 @@ public class playerButtonControl : MonoBehaviour {
             {
                 if (EventSystem.current.currentSelectedGameObject.name == "b"+g.ToString())
                 {
-                    gm.chosenItem = gm.playersBackpack[g-1];
+                    //gm.chosenItem = gm.playersBackpack[g-1];
+                    gm.chosenItem.name = gm.playersBackpack[g - 1].name;
+                    gm.chosenItem.description = gm.playersBackpack[g - 1].description;
+                    gm.chosenItem.amount = gm.playersBackpack[g - 1].amount;
+                    gm.chosenItem.itemPropertyInt = gm.playersBackpack[g - 1].itemPropertyInt;
+                    gm.chosenItem.sellCost = gm.playersBackpack[g - 1].sellCost;
+                    gm.chosenItem.itemImage = gm.playersBackpack[g - 1].itemImage;
+
                     gm.GetComponent<gamemanagement>().reppuItemImg.sprite = gm.playersBackpack[g - 1].itemImage;
                 }
             }

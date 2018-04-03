@@ -62,57 +62,15 @@ public class shopVendor : MonoBehaviour
     {
         sellSCreenImages();
 
-        /*
-        for (int y = 0; y < gm.GetComponent<gamemanagement>().AllItems.Length; y++)
-        {
-            //saman niminen item allitems listalta
-            if (gm.GetComponent<gamemanagement>().AllItems[y].name == sellButtons[itemToSellINT].itemNameHolder.text)
-            {
-                string tempSellingItem = gm.GetComponent<gamemanagement>().AllItems[y].name;
-
-            }
-        }
-        */
-        if (itemToSellINT == 0)
-        {
-            gm.GetComponent<gamemanagement>().money = +sellButtons[0].cost;
-            sellButtons[0].itemNameHolder.text = "";
-
-            if(sellButtons[0].itemNameHolder.text == "")
-            {
-                gm.GetComponent<gamemanagement>().playersBackpack[0].name = "";
-                gm.GetComponent<gamemanagement>().playersBackpack[0].description = "";
-                gm.GetComponent<gamemanagement>().playersBackpack[0].itemPropertyInt = 0;
-                gm.GetComponent<gamemanagement>().playersBackpack[0].sellCost = 0;
-                gm.GetComponent<gamemanagement>().playersBackpack[0].itemImage = null;
-            }
-            sellSCreenImages();
-        }
-
-            /*
-            for (int intti = 0; intti < 10; intti++)
-            {
-                sellButtons[intti].itemNameHolder.text = gm.GetComponent<gamemanagement>().playersBackpack[intti].name;
-                if (gm.GetComponent<gamemanagement>().playersBackpack[intti].name == sellButtons[intti].itemNameHolder.text)
-                { sellButtons[intti].cost = gm.GetComponent<gamemanagement>().playersBackpack[intti].sellCost; }
-            }
-            */
             //itemToSellINT = 10;
             Debug.Log("SOLD A THING");
 
-
-
-
-
-
-        /*
-
         for (int y = 0; y < gm.GetComponent<gamemanagement>().AllItems.Length; y++)
         {
             //saman niminen item allitems listalta
             if (gm.GetComponent<gamemanagement>().AllItems[y].name == sellButtons[itemToSellINT].itemNameHolder.text)
             {
-                gm.GetComponent<gamemanagement>().money = +sellButtons[itemToSellINT].cost;
+                gm.GetComponent<gamemanagement>().money = gm.GetComponent<gamemanagement>().money + sellButtons[itemToSellINT].cost;
                 sellButtons[itemToSellINT].itemNameHolder.text = "";
                 gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].name = "";
                 gm.GetComponent<gamemanagement>().playersBackpack[itemToSellINT].description = "";
@@ -134,14 +92,6 @@ public class shopVendor : MonoBehaviour
             }
             //Debug.Log("loop times "+y);
         }
-        
-        */
-
-
-
-
-
-
 
 
         sellSCreenImages();
@@ -183,7 +133,15 @@ public class shopVendor : MonoBehaviour
                                 {
                                     Debug.Log("BOUGHT A THING");
                                     gm.GetComponent<gamemanagement>().reppuVisuals();
-                                    gm.GetComponent<gamemanagement>().playersBackpack[u] = gm.GetComponent<gamemanagement>().AllItems[y];
+                                    //gm.GetComponent<gamemanagement>().playersBackpack[u] = gm.GetComponent<gamemanagement>().AllItems[y];
+                                    gm.GetComponent<gamemanagement>().playersBackpack[u].name = gm.GetComponent<gamemanagement>().AllItems[y].name;
+                                    gm.GetComponent<gamemanagement>().playersBackpack[u].description = gm.GetComponent<gamemanagement>().AllItems[y].description;
+                                    gm.GetComponent<gamemanagement>().playersBackpack[u].amount = gm.GetComponent<gamemanagement>().AllItems[y].amount;
+                                    gm.GetComponent<gamemanagement>().playersBackpack[u].itemPropertyInt = gm.GetComponent<gamemanagement>().AllItems[y].itemPropertyInt;
+                                    gm.GetComponent<gamemanagement>().playersBackpack[u].sellCost = gm.GetComponent<gamemanagement>().AllItems[y].sellCost;
+                                    gm.GetComponent<gamemanagement>().playersBackpack[u].itemImage = gm.GetComponent<gamemanagement>().AllItems[y].itemImage;
+
+
                                     gm.GetComponent<gamemanagement>().money = gm.GetComponent<gamemanagement>().money - buyButtons[p].cost;
                                     allowBuy = false;
                                     return;

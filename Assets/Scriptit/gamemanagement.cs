@@ -24,7 +24,7 @@ public class gamemanagement : MonoBehaviour {
     [Header("__________________________")]
     public Monsters Pet;
     public Items chosenItem;
-    public Items[] playersBackpack;
+    public ItemsInBackpackClass[] playersBackpack;
     [Header("__________________________")]
     //lists / arrays I dont fucking know
     [Range(1,20)]
@@ -118,7 +118,13 @@ public class gamemanagement : MonoBehaviour {
             {
                 if (playersBackpack[t].name == AllItems[e].name)
                 {
-                    playersBackpack[t] = AllItems[e];
+                    // playersBackpack[t] = AllItems[e];
+                    playersBackpack[t].name = AllItems[e].name;
+                    playersBackpack[t].description = AllItems[e].description;
+                    playersBackpack[t].amount = AllItems[e].amount;
+                    playersBackpack[t].itemPropertyInt = AllItems[e].itemPropertyInt;
+                    playersBackpack[t].sellCost = AllItems[e].sellCost;
+                    playersBackpack[t].itemImage = AllItems[e].itemImage;
                 }
             }
         }
@@ -193,6 +199,13 @@ public class Buffs
     public string name, description;
     public int buffPropertyInt;
     public bool buffBool;
+}
+[System.Serializable]
+public class ItemsInBackpackClass
+{
+    public string name, description;
+    public int amount, itemPropertyInt, sellCost;
+    public Sprite itemImage;
 }
 [System.Serializable]
 public class Items

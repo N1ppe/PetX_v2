@@ -26,7 +26,14 @@ public class playerItems : MonoBehaviour
                     {
                         if (gm.GetComponent<gamemanagement>().playersBackpack[u].name == "")
                         {
-                            gm.GetComponent<gamemanagement>().playersBackpack[u] = gm.GetComponent<gamemanagement>().AllItems[i];
+                            //gm.GetComponent<gamemanagement>().playersBackpack[u] = gm.GetComponent<gamemanagement>().AllItems[i];
+                            gm.GetComponent<gamemanagement>().playersBackpack[u].name = gm.GetComponent<gamemanagement>().AllItems[i].name;
+                            gm.GetComponent<gamemanagement>().playersBackpack[u].description = gm.GetComponent<gamemanagement>().AllItems[i].description;
+                            gm.GetComponent<gamemanagement>().playersBackpack[u].amount = gm.GetComponent<gamemanagement>().AllItems[i].amount;
+                            gm.GetComponent<gamemanagement>().playersBackpack[u].itemPropertyInt = gm.GetComponent<gamemanagement>().AllItems[i].itemPropertyInt;
+                            gm.GetComponent<gamemanagement>().playersBackpack[u].sellCost = gm.GetComponent<gamemanagement>().AllItems[i].sellCost;
+                            gm.GetComponent<gamemanagement>().playersBackpack[u].itemImage = gm.GetComponent<gamemanagement>().AllItems[i].itemImage;
+
                             Destroy(other.gameObject);
                             return;
                         }
