@@ -6,20 +6,17 @@ using UnityEngine.UI;
 public class playerMovement : MonoBehaviour {
 
     public float sprint;
-    public GameObject skin;
-    public Sprite[] playerSprites;
     private Animator animator;
     [Range(0,100)]
     public float stamina;
+    public Vector2 speed;
 
-    public Vector2 speed = new Vector2(1, 1);
-
-	void Start ()
+    void Start ()
     {
         animator = GetComponent<Animator>();
     }
 
-	void Update ()
+	public void Update ()
     {
         // Sprinting speed
         if (Input.GetButton("run") && stamina > 0 )
@@ -42,11 +39,6 @@ public class playerMovement : MonoBehaviour {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
 
-        // Supposed to be more accurate for tracking player facing direction, don't need with 4 directions
-        /*
-        animator.SetFloat("SpeedX", inputX);
-        animator.SetFloat("SpeedY", inputY);
-        */
         Vector3 movement = new Vector3(
             speed.x * inputX,
             speed.y * inputY,
@@ -55,11 +47,10 @@ public class playerMovement : MonoBehaviour {
         movement *= Time.deltaTime;
 
         transform.Translate(movement*sprint);
-
-        attacking(); 
+ 
 	}
     // Updates animator float that changes player sprite direction
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         float lastInputX = Input.GetAxis("Horizontal");
         float lastInputY = Input.GetAxis("Vertical");
@@ -97,51 +88,43 @@ public class playerMovement : MonoBehaviour {
         {
             animator.SetBool("walking", false);
         }
+
+        if (((lastInputX == 0)) && ((lastInputY == -1)))
+        {
+            Facing.dirFacing = Facing.directionFacing.down;
+        }
+        if (((lastInputX == -1)) && ((lastInputY == -1)))
+        {
+            Facing.dirFacing = Facing.directionFacing.downleft;
+        }
+        if (((lastInputX == -1)) && ((lastInputY == 0)))
+        {
+            Facing.dirFacing = Facing.directionFacing.left;
+        }
+        if (((lastInputX == -1)) && ((lastInputY == 1)))
+        {
+            Facing.dirFacing = Facing.directionFacing.upleft;
+        }
+        if (((lastInputX == 0)) && ((lastInputY == 1)))
+        {
+            Facing.dirFacing = Facing.directionFacing.up;
+        }
+        if (((lastInputX == 1)) && ((lastInputY == 1)))
+        {
+            Facing.dirFacing = Facing.directionFacing.upright;
+        }
+        if (((lastInputX == 1)) && ((lastInputY == 0)))
+        {
+            Facing.dirFacing = Facing.directionFacing.right;
+        }
+        if (((lastInputX == 1)) && ((lastInputY == -1)))
+        {
+            Facing.dirFacing = Facing.directionFacing.downright;
+        }
     }
     
-    public void attacking()
-    {
-        if (GetComponent<playerAttacking>().atkAllow == true)
-        {
-            if (Input.GetButton("up") || Input.GetKey(KeyCode.UpArrow))
-            {  
-                //skin.GetComponent<SpriteRenderer>().sprite = playerSprites[0];
-                GetComponent<playerAttacking>().DirectionFacing = directionFacing.up;
-                //transform.Translate(Vector3.up * speed * Time.deltaTime);
-            }
-            if (Input.GetButton("down") || Input.GetKey(KeyCode.DownArrow))
-            {
-                //skin.GetComponent<SpriteRenderer>().sprite = playerSprites[1];
-                GetComponent<playerAttacking>().DirectionFacing = directionFacing.down;
-                //transform.Translate(Vector3.down * speed * Time.deltaTime);
-            }
-            if (Input.GetButton("left") || Input.GetKey(KeyCode.LeftArrow))
-            {
-                //skin.GetComponent<SpriteRenderer>().sprite = playerSprites[2];
-                GetComponent<playerAttacking>().DirectionFacing = directionFacing.left;
-                //transform.Translate(Vector3.left * speed * Time.deltaTime);
-            }
-            if (Input.GetButton("right") || Input.GetKey(KeyCode.RightArrow))
-            {
-                //skin.GetComponent<SpriteRenderer>().sprite = playerSprites[3];
-                GetComponent<playerAttacking>().DirectionFacing = directionFacing.right;
-                //transform.Translate(Vector3.right * speed * Time.deltaTime);
-            }    
-            /*
-            if (Input.GetButton("up") || Input.GetKey(KeyCode.UpArrow)) { animator.SetInteger("dirInt", 1); }
-            else if (Input.GetButton("down") || Input.GetKey(KeyCode.DownArrow)) { animator.SetInteger("dirInt", 2); }
-            else if (Input.GetButton("left") || Input.GetKey(KeyCode.LeftArrow)) { animator.SetInteger("dirInt", 3); }
-            else if (Input.GetButton("right") || Input.GetKey(KeyCode.RightArrow)) { animator.SetInteger("dirInt", 4); }
-            else { animator.SetInteger("dirInt", 0); }
-            */    
-        }
-    }
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.name == "wall")
-        {
-            Debug.Log("hit a wall");
-        }
         if (other.gameObject.tag == "Enemy")
         {
            this.gameObject.GetComponent<playerAttacking>().playerHealth--;
@@ -154,4 +137,13 @@ public class playerMovement : MonoBehaviour {
             this.gameObject.GetComponent<playerAttacking>().playerHealth--;
         }
     }
+}
+
+
+public class Facing : MonoBehaviour
+{
+
+    public enum directionFacing { down, downleft, left, upleft, up, upright, right, downright };
+    public static directionFacing dirFacing;
+
 }
