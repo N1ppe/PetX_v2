@@ -8,7 +8,6 @@ public class playerAttacking : MonoBehaviour {
     //[Range(0,3)]
     public int playerHealth;
     public bool attackingOn,atkAllow=true;
-    public GameObject attackSprt;
     public Collider2D attackCollider;
 
     public Image UIhealth;
@@ -17,12 +16,25 @@ public class playerAttacking : MonoBehaviour {
     public Vector2 bedLocation;
     public gamemanagement gm;
 
+    public GameObject attackSprt;
+    public GameObject attackSpriteDark;
+    public GameObject attackSpriteLight;
+
     void Start ()
     {
         attackCollider = attackSprt.GetComponent<Collider2D>();
     }
 	void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            attackSprt = attackSpriteDark;
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            attackSprt = attackSpriteLight;
+        }
+
         calcHealth();
         attackControls();
         spriteRot();
@@ -143,7 +155,7 @@ public void spritePos()
     {
         atkAllow = false;
         attackSprt.SetActive(true);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1f);
         attackSprt.SetActive(false);
         atkAllow = true;
     }

@@ -80,7 +80,7 @@ public class playerButtonControl : MonoBehaviour {
                 evolves.SetActive(false);
                 reppu.SetActive(false);
                 map.SetActive(true);
-                //Time.timeScale = 0;
+                Time.timeScale = 1;
                 //Cursor.visible = true;
                 openWindow = openCanvas.map;
         }
@@ -133,7 +133,7 @@ public class playerButtonControl : MonoBehaviour {
                 evolves.SetActive(false);
                 reppu.SetActive(false);
                 map.SetActive(true);
-                Time.timeScale = 0;
+                Time.timeScale = 1;
                 openWindow = openCanvas.map;
             }
         }
